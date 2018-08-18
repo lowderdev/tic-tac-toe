@@ -1,0 +1,29 @@
+{
+  "name": "tic_tac_toe",
+  "version": "0.1.0",
+  "description": "Live Multiplayer Tic Tac Toe With Node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "todo"
+  },
+  "keywords": [
+    "tic-tac-toe",
+    "node",
+    "web-sockets",
+    "learning",
+    "games"
+  ],
+  "author": "Logan Lowder",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3",
+    "socket.io": "^2.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.3"
+  }
+}

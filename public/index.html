@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Tic Tac Toe</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+    <link href="/styles.css" rel="stylesheet" />
+  </head>
+  <body>
+
+    <h1 id="title">Tic Tac Toe</h1>
+
+    <div id="board">
+      <div class="row">
+        <div id="square1" class="square">
+          <div class="square-content">
+            X
+          </div>
+        </div>
+        <div id="square2" class="square"></div>
+        <div id="square3" class="square"></div>
+      </div>
+      <div class="row">
+        <div id="square4" class="square"></div>
+        <div id="square5" class="square"></div>
+        <div id="square6" class="square"></div>
+      </div>
+      <div class="row">
+        <div id="square7" class="square"></div>
+        <div id="square8" class="square"></div>
+        <div id="square9" class="square"></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <div>
+      <div>
+        <div id="output"></div>
+        <div id="feedback"></div>
+      </div>
+      <input id="handle" type="text" placeholder="Handle" />
+      <input id="message" type="text" placeholder="Message" />
+      <button id="send">Send</button>
+    </div>
+
+  </body>
+  <script src="/chat.js"></script>
+</html>
