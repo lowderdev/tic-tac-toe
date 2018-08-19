@@ -10,20 +10,6 @@ let id = null;
 let playerNum = null;
 let currentlyTyping = false;
 
-button.addEventListener('click', () => {
-  socket.emit('chat', {
-    id: id,
-    message: message.value
-  });
-  message.value = '';
-});
-
-message.addEventListener('input', (event) => {
-  if (currentlyTyping === !!message.value) return;
-  currentlyTyping = !!message.value;
-  socket.emit('typing', { playerNum: playerNum, typing: currentlyTyping });
-});
-
 // Listen for events
 socket.on('connected', (data) => {
   id = data.id;
@@ -39,7 +25,7 @@ socket.on('chat', (data) => {
 
 socket.on('typing', (data) => {
   if (data.typing) {
-    feedback.innerHTML = `<p><em>Player${data.playerNum} is typing a message...</em></p>`;
+    feedback.innerHTML = `<p><em>${data.handle} is typing a message...</em></p>`;
   } else {
     feedback.innerHTML = '';
   }
@@ -49,4 +35,16 @@ socket.on('typing', (data) => {
 socket.on('move', (data) => {
   console.log(`Making move on ${data}`);
   document.getElementById(data).innerHTML = 'X';
+});
+
+// chat
+message.addEventListener('input', (event) => {
+  if (currentlyTyping === !!message.value) return;
+  currentlyTyping = !!message.value;
+  socket.emit('typing', { id: id, typing: currentlyTyping });
+});
+
+button.addEventListener('click', () => {
+  socket.emit('chat', { id: id, message: message.value });
+  message.value = '';
 });

@@ -16,23 +16,17 @@ let playerNum = 1;
 let players = {};
 
 io.on('connection', (socket) => {
-  console.log(`connecting player ${playerNum}`, socket.id);
-  players[socket.id] = playerNum
-  socket.emit('connected', { id: socket.id, playerNum: playerNum });
-  socket.broadcast.emit('chat', { handle: 'Server', message: `Player${playerNum} connected.` });
-  playerNum++;
-
-  socket.on('chat', (data) => {
-    console.log(data);
-    io.emit(
-      'chat',
-      { handle: `Player${players[data.id]}`, message: data.message }
-    );
-  });
+  connectPlayer(socket);
 
   socket.on('typing', (data) => {
     console.log(data);
-    socket.broadcast.emit('typing', data);
+    let handle = getHandle(data.id)
+    socket.broadcast.emit('typing', { handle: handle, typing: data.typing });
+  });
+
+  socket.on('chat', (data) => {
+    let handle = getHandle(data.id)
+    io.emit('chat', { handle: handle, message: data.message });
   });
 
   socket.on('move', (data) => {
@@ -42,7 +36,19 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    const departingPlayerNum = players[socket.id];
-    io.emit('chat', { handle: 'Server', message: `Player${departingPlayerNum} disconnected.` });
+    let handle = getHandle(socket.id)
+    io.emit('chat', { handle: 'Server', message: `${handle} disconnected.` });
   });
 });
+
+function getHandle(id) {
+  return `Player${players[String(id)].playerNum}`
+}
+
+function connectPlayer(socket) {
+  console.log(`connecting player${playerNum}: ${socket.id}`);
+  players[String(socket.id)] = { playerNum: playerNum };
+  socket.emit('connected', { id: socket.id, playerNum: playerNum });
+  socket.broadcast.emit('chat', { handle: 'Server', message: `Player${playerNum} connected.` });
+  playerNum++;
+}
