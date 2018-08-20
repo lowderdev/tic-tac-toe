@@ -9,6 +9,7 @@ const button = document.getElementById('send');
 let id = null;
 let playerNum = null;
 let currentlyTyping = false;
+let mark = null;
 
 // Listen for events
 socket.on('connected', (data) => {
@@ -31,10 +32,29 @@ socket.on('typing', (data) => {
   }
 });
 
-// tic-tac-toe
+socket.on('joinedGame', (data) => {
+  console.log(`Joined game as ${data.mark}'s`);
+  mark = data.mark;
+  output.innerHTML += `<p><strong>You joined the game as ${mark}'s</strong></p>`;
+});
+
 socket.on('move', (data) => {
-  console.log(`Making move on ${data}`);
-  document.getElementById(data).innerHTML = 'X';
+  const square = document.getElementById(data.squareId);
+  const mark = data.mark;
+
+  console.log(`Making move ${mark} on ${data.squareId}`);
+  square.setAttribute('data-mark', mark);
+  square.innerHTML = mark;
+});
+
+// tic-tac-toe
+document.addEventListener('click', (event) => {
+  if (!event.target.classList.contains('square')) return;
+
+  const square = event.target;
+  if (square.getAttribute('data-mark') === null) {
+    socket.emit('move', { id: id, squareId: square.id });
+  }
 });
 
 // chat
