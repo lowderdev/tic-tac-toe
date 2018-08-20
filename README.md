@@ -7,5 +7,6 @@ Using [express](https://expressjs.com/) and [socket.io](https://socket.io/)
 To try it out just run:
 ```bash
 npm install
+nodemon
 ```
-and then open up one or more private browser windows.
+and then visit [localhost:4000](localhost:4000) in one or more private browser windows.
